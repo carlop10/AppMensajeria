@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación Técnica - Sistema de Seguimiento de Entregas</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 2.5cm;
+        }
+        
+        body {
+            font-family: 'Calibri', 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 21cm;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            font-size: 24pt;
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        h2 {
+            color: #2c3e50;
+            font-size: 18pt;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 5px;
+        }
+        
+        h3 {
+            color: #34495e;
+            font-size: 14pt;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        
+        h4 {
+            color: #555;
+            font-size: 12pt;
+            margin-top: 15px;
+            margin-bottom: 8px;
+        }
+        
+        p {
+            margin: 10px 0;
+            text-align: justify;
+        }
+        
+        ul, ol {
+            margin: 10px 0;
+            padding-left: 30px;
+        }
+        
+        li {
+            margin: 5px 0;
+        }
+        
+        .code-block {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 10pt;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        .diagram {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 15px 0;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 10pt;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+            font-size: 10pt;
+            color: #666;
+        }
+        
+        .highlight {
+            background-color: #fff3cd;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+            }
+            
+            h2 {
+                page-break-after: avoid;
+            }
+            
+            .code-block, .diagram {
+                page-break-inside: avoid;
+            }
+        }
+        
+        .btn-download {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #3498db;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14pt;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+        
+        .btn-download:hover {
+            background-color: #2980b9;
+        }
+        
+        @media print {
+            .btn-download {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="btn-download" onclick="window.print()">Descargar como PDF</button>
+    
+    <h1>Documentación Técnica - Sistema de Seguimiento de Entregas</h1>
+    
+    <h2>1. Descripción General del Sistema</h2>
+    
+    <h3>1.1. Propósito</h3>
+    <p>El Sistema de Seguimiento de Entregas es una aplicación web empresarial diseñada para gestionar integralmente la logística de entregas. Permite administrar pedidos, asignar rutas a mensajeros y realizar seguimiento en tiempo real de las entregas mediante tecnología de geolocalización.</p>
+    
+    <h3>1.2. Público Objetivo</h3>
+    <p>Empresas con flotas pequeñas o medianas (5-50 mensajeros) que buscan digitalizar sus operaciones logísticas sin depender de plataformas externas. Sectores ideales: distribución local, comercio electrónico, servicios de mensajería, farmacias, restaurantes.</p>
+    
+    <h3>1.3. Alcance</h3>
+    <ul>
+        <li>Gestión completa del ciclo de vida del pedido</li>
+        <li>Monitoreo en tiempo real de mensajeros</li>
+        <li>Interfaces diferenciadas por roles de usuario</li>
+        <li>API REST para integraciones futuras</li>
+        <li>Arquitectura preparada para expansión</li>
+    </ul>
+    
+    <h2>2. Arquitectura del Sistema</h2>
+    
+    <h3>2.1. Diagrama Arquitectónico</h3>
+    <table style="text-align: center; border: none;">
+        <tr>
+            <td style="border: 2px solid #3498db; padding: 15px; background-color: #ecf0f1;">
+                <strong>Cliente Frontend (Vue.js)</strong>
+            </td>
+            <td style="border: none; padding: 15px; font-size: 20pt;">↔</td>
+            <td style="border: 2px solid #3498db; padding: 15px; background-color: #ecf0f1;">
+                <strong>API REST (Laravel)</strong>
+            </td>
+            <td style="border: none; padding: 15px; font-size: 20pt;">↔</td>
+            <td style="border: 2px solid #3498db; padding: 15px; background-color: #ecf0f1;">
+                <strong>Base de Datos (PostgreSQL + PostGIS)</strong>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 10px; background-color: #fff;">
+                Panel Cliente<br>
+                Panel Mensajero<br>
+                Panel Administrador
+            </td>
+            <td style="border: none;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px; background-color: #fff;">
+                Autenticación<br>
+                Lógica de Negocio<br>
+                Middlewares
+            </td>
+            <td style="border: none;"></td>
+            <td style="border: 1px solid #ddd; padding: 10px; background-color: #fff;">
+                Datos Espaciales<br>
+                Entidades Principales<br>
+                Historial de Cambios
+            </td>
+        </tr>
+    </table>
+    
+    <h3>2.2. Stack Tecnológico</h3>
+    
+    <h4>Backend</h4>
+    <ul>
+        <li>Framework: Laravel 11.x</li>
+        <li>PHP: 8.2+</li>
+        <li>Autenticación: Laravel Sanctum 4.2+</li>
+        <li>Manejo Espacial: Laravel Eloquent Spatial 4.5+</li>
+        <li>API: RESTful con JSON</li>
+    </ul>
+    
+    <h4>Frontend</h4>
+    <ul>
+        <li>Framework: Vue.js 3.5.22</li>
+        <li>Estado Global: Pinia 3.0.3</li>
+        <li>Ruteo: Vue Router 4.6.3</li>
+        <li>Mapas: Leaflet 1.9.4 + Vue3-Leaflet 1.0.50</li>
+        <li>HTTP Client: Axios 1.13.2</li>
+    </ul>
+    
+    <h4>Base de Datos</h4>
+    <ul>
+        <li>Motor Principal: PostgreSQL 14+</li>
+        <li>Extensión Geoespacial: PostGIS 3.0+</li>
+        <li>Características: Consultas espaciales, índices GEOGRAPHY</li>
+    </ul>
+    
+    <h4>Infraestructura</h4>
+    <ul>
+        <li>Contenedores: Docker</li>
+        <li>Despliegue: Railway/Render/VPS</li>
+        <li>Tiempo Real: Laravel Echo + Pusher (futuro)</li>
+    </ul>
+    
+    <h2>3. Requerimientos Detallados</h2>
+    
+    <h3>3.1. Requerimientos Funcionales</h3>
+    
+    <h4>Módulo de Autenticación y Autorización</h4>
+    <ul>
+        <li>RF-01: Sistema de autenticación multi-rol (Admin, Mensajero, Cliente)</li>
+        <li>RF-02: Autorización basada en políticas Laravel</li>
+        <li>RF-03: Tokens de API con Laravel Sanctum</li>
+    </ul>
+    
+    <h4>Módulo de Gestión de Usuarios</h4>
+    <ul>
+        <li>RF-04: CRUD completo de usuarios con roles</li>
+        <li>RF-05: Perfiles de usuario diferenciados</li>
+        <li>RF-06: Activación/desactivación de cuentas</li>
+    </ul>
+    
+    <h4>Módulo de Pedidos</h4>
+    <ul>
+        <li>RF-07: Creación, edición y eliminación de pedidos</li>
+        <li>RF-08: Asignación de pedidos a mensajeros</li>
+        <li>RF-09: Estados de pedido: Pendiente, Asignado, En Camino, Entregado, Cancelado</li>
+        <li>RF-10: Historial de cambios de estado</li>
+    </ul>
+    
+    <h4>Módulo de Geolocalización</h4>
+    <ul>
+        <li>RF-11: Captura automática de ubicación del mensajero</li>
+        <li>RF-12: Almacenamiento de coordenadas con PostGIS</li>
+        <li>RF-13: Visualización en mapa con Leaflet</li>
+        <li>RF-14: Precisión mínima de 15 metros</li>
+    </ul>
+    
+    <h4>Módulo de Monitoreo</h4>
+    <ul>
+        <li>RF-15: Panel administrativo con vista de mapa en tiempo real</li>
+        <li>RF-16: Seguimiento individual de mensajeros</li>
+        <li>RF-17: Consulta de estado de pedidos por clientes</li>
+    </ul>
+    
+    <h3>3.2. Requerimientos No Funcionales</h3>
+    
+    <h4>Rendimiento</h4>
+    <ul>
+        <li>RNF-01: Tiempo de respuesta API menor a 200ms</li>
+        <li>RNF-02: Soporte para 100 usuarios concurrentes</li>
+        <li>RNF-03: Carga inicial de aplicación menor a 3 segundos</li>
+    </ul>
+    
+    <h4>Seguridad</h4>
+    <ul>
+        <li>RNF-04: Autenticación con tokens de API (Sanctum)</li>
+        <li>RNF-05: Validación de datos de entrada</li>
+        <li>RNF-06: Protección CSRF en formularios web</li>
+        <li>RNF-07: CORS configurado para dominios específicos</li>
+    </ul>
+    
+    <h4>Usabilidad</h4>
+    <ul>
+        <li>RNF-08: Interfaz responsive (mobile-first)</li>
+        <li>RNF-09: Compatibilidad con navegadores modernos</li>
+        <li>RNF-10: Experiencia intuitiva para usuarios no técnicos</li>
+    </ul>
+    
+    <h4>Mantenibilidad</h4>
+    <ul>
+        <li>RNF-11: Código documentado y testeado</li>
+        <li>RNF-12: Migraciones de base de datos versionadas</li>
+        <li>RNF-13: Logs de errores y auditoría</li>
+    </ul>
+    
+    <h2>4. Esquema de Base de Datos</h2>
+    
+    <h3>4.1. Tablas Principales</h3>
+    <div class="code-block">-- Usuarios y autenticación
+users (id, name, email, password, role, email_verified_at, created_at, updated_at)
+personal_access_tokens (id, tokenable_type, tokenable_id, name, token, abilities, last_used_at, expires_at, created_at)
+
+-- Gestión de pedidos
+orders (id, tracking_number, customer_id, messenger_id, status, pickup_address, delivery_address, scheduled_at, delivered_at, created_at, updated_at)
+order_status_history (id, order_id, status, notes, created_at)
+
+-- Geolocalización
+locations (id, messenger_id, location: geography(Point, 4326), accuracy, recorded_at, created_at)
+messenger_tracks (id, messenger_id, route: geography(LineString, 4326), start_time, end_time, created_at)
+
+-- Entidades de negocio
+customers (id, user_id, company_name, contact_phone, address, created_at, updated_at)
+messengers (id, user_id, vehicle_type, license_plate, is_active, current_location_id, created_at, updated_at)</div>
+    
+    <h3>4.2. Índices Espaciales</h3>
+    <div class="code-block">CREATE INDEX idx_locations_location ON locations USING GIST (location);
+CREATE INDEX idx_messenger_tracks_route ON messenger_tracks USING GIST (route);</div>
+    
+    <h2>5. Especificación de la API</h2>
+    
+    <h3>5.1. Endpoints de Autenticación</h3>
+    <div class="code-block">POST   /api/auth/login
+POST   /api/auth/register
+POST   /api/auth/logout
+GET    /api/auth/user</div>
+    
+    <h3>5.2. Endpoints de Pedidos</h3>
+    <div class="code-block">GET    /api/orders
+POST   /api/orders
+GET    /api/orders/{id}
+PUT    /api/orders/{id}
+DELETE /api/orders/{id}
+GET    /api/orders/{id}/tracking
+POST   /api/orders/{id}/status</div>
+    
+    <h3>5.3. Endpoints de Geolocalización</h3>
+    <div class="code-block">POST   /api/location/update
+GET    /api/messengers/{id}/location
+GET    /api/messengers/{id}/track
+GET    /api/map/messengers</div>
+    
+    <h3>5.4. Headers de Autenticación</h3>
+    <div class="code-block">Authorization: Bearer {sanctum_token}
+Accept: application/json
+Content-Type: application/json</div>
+    
+    <h2>6. Configuración y Despliegue</h2>
+    
+    <h3>6.1. Variables de Entorno Críticas</h3>
+    <div class="code-block">APP_ENV=production
+APP_KEY=base64:...
+DB_CONNECTION=pgsql
+DB_HOST=...
+DB_PORT=5432
+DB_DATABASE=...
+DB_USERNAME=...
+DB_PASSWORD=...
+
+POSTGIS_VERSION=3.0
+SANCTUM_STATEFUL_DOMAINS=localhost,127.0.0.1
+
+VUE_APP_API_URL=https://api.tudominio.com
+VUE_APP_MAP_TILE_URL=https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png</div>
+    
+    <h3>6.2. Comandos de Instalación</h3>
+    <div class="code-block"># Backend
+composer install
+php artisan migrate
+php artisan db:seed
+php artisan storage:link
+
+# Frontend
+npm install
+npm run build
+
+# PostGIS Activation
+php artisan db:statement("CREATE EXTENSION IF NOT EXISTS postgis;")</div>
+    
+    <h2>7. Flujos de Trabajo Principales</h2>
+    
+    <h3>7.1. Flujo de Creación y Seguimiento de Pedido</h3>
+    <ol>
+        <li>Administrador crea pedido en el sistema</li>
+        <li>Sistema asigna mensajero automáticamente o manualmente</li>
+        <li>Mensajero recibe notificación y acepta pedido</li>
+        <li>Mensajero inicia ruta y comparte ubicación en tiempo real</li>
+        <li>Cliente consulta estado y ubicación estimada</li>
+        <li>Sistema registra entrega y cierra el pedido</li>
+    </ol>
+    
+    <h3>7.2. Flujo de Autenticación</h3>
+    <ol>
+        <li>Usuario ingresa credenciales</li>
+        <li>Laravel Sanctum genera token de API</li>
+        <li>Token se almacena en cliente para requests subsiguientes</li>
+        <li>Middleware auth:sanctum valida requests</li>
+        <li>Tokens pueden ser revocados individualmente</li>
+    </ol>
+    
+    <h2>8. Consideraciones de Seguridad</h2>
+    
+    <h3>8.1. Medidas Implementadas</h3>
+    <ul>
+        <li>Hash de contraseñas con bcrypt</li>
+        <li>Tokens de API con expiración configurable</li>
+        <li>Políticas de autorización por rol</li>
+        <li>Validación de datos de entrada</li>
+        <li>Protección contra SQL injection con Eloquent</li>
+        <li>CORS configurado para dominios específicos</li>
+    </ul>
+    
+    <h3>8.2. Recomendaciones de Seguridad</h3>
+    <ul>
+        <li>Rotación periódica de tokens</li>
+        <li>Uso de HTTPS en producción</li>
+        <li>Validación de datos geoespaciales</li>
+        <li>Rate limiting en endpoints críticos</li>
+        <li>Auditoría regular de logs de acceso</li>
+    </ul>
+    
+    <h2>9. Roadmap y Mejoras Futuras</h2>
+    
+    <h3>9.1. Fase 1 (Actual)</h3>
+    <ul>
+        <li>Funcionalidades básicas de seguimiento</li>
+        <li>Paneles para admin, mensajero y cliente</li>
+        <li>API REST completa</li>
+    </ul>
+    
+    <h3>9.2. Fase 2 (Próxima)</h3>
+    <ul>
+        <li>Integración con WhatsApp Business API</li>
+        <li>Notificaciones push en tiempo real</li>
+        <li>Optimización de rutas automática</li>
+        <li>Reportes y analytics</li>
+    </ul>
+    
+    <h3>9.3. Fase 3 (Futuro)</h3>
+    <ul>
+        <li>App móvil nativa para mensajeros</li>
+        <li>Integración con sistemas de pago</li>
+        <li>Machine learning para predicción de tiempos</li>
+        <li>Soporte multi-idioma</li>
+    </ul>
+    
+    <h2>10. Mantenimiento y Soporte</h2>
+    
+    <h3>10.1. Monitoreo Recomendado</h3>
+    <ul>
+        <li>Uso de memoria y CPU</li>
+        <li>Tiempos de respuesta de API</li>
+        <li>Errores en logs de aplicación</li>
+        <li>Uso de almacenamiento espacial</li>
+    </ul>
+    
+    <h3>10.2. Backup Strategy</h3>
+    <ul>
+        <li>Backup diario de base de datos</li>
+        <li>Backup incremental de archivos</li>
+        <li>Retención de 30 días</li>
+        <li>Verificación periódica de restauración</li>
+    </ul>
+    
+    <div class="footer">
+        <p><strong>Versión del Documento:</strong> 1.0</p>
+        <p><strong>Última Actualización:</strong> [9/11/2025]</p>
+        <p><strong>Elaborado por:</strong> <a href="https://github.com/carlop10" target="_blank" rel="noopener noreferrer">https://github.com/carlop10</a></p>
+        <p><strong>Tecnologías:</strong> Laravel 12, Vue.js 3, PostgreSQL + PostGIS, Laravel Sanctum</p>
+    </div>
+</body>
+</html>
